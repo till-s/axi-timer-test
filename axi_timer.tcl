@@ -159,15 +159,10 @@ update_ip_catalog -rebuild
 set obj [get_filesets sources_1]
 set files [list \
  [file normalize "${origin_dir}/zybo_generic/zybo_generic.srcs/component.xml"] \
+ [file normalize "${origin_dir}/axi_timer.srcs/sources_1/bd/system/system.bd"]\
+ [file normalize "${origin_dir}/axi_timer.srcs/sources_1/bd/system/hdl/system_wrapper.vhd"]\
 ]
 add_files -norecurse -fileset $obj $files
-
-# Import local files from the original project
-set files [list \
- [file normalize "${origin_dir}/axi_timer/axi_timer.srcs/sources_1/bd/system/system.bd"]\
- [file normalize "${origin_dir}/axi_timer/axi_timer.srcs/sources_1/bd/system/hdl/system_wrapper.vhd"]\
-]
-set imported_files [import_files -fileset sources_1 $files]
 
 # Set 'sources_1' fileset file properties for remote files
 set file "$origin_dir/zybo_generic/zybo_generic.srcs/component.xml"
@@ -199,31 +194,36 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 set obj [get_filesets constrs_1]
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize ${origin_dir}/axi_timer/axi_timer.srcs/constrs_1/imports/zybo/ZYBO_Master.xdc]"
-set file_imported [import_files -fileset constrs_1 [list $file]]
+set files [list "[file normalize ${origin_dir}/axi_timer.srcs/constrs_1/imports/zybo/ZYBO_Master.xdc]"]
+add_files -norecurse -fileset $obj $files
 set file "zybo/ZYBO_Master.xdc"
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize ${origin_dir}/axi_timer/axi_timer.srcs/constrs_1/new/system_wrapper.xdc]"
-set file_imported [import_files -fileset constrs_1 [list $file]]
+set files [list "[file normalize ${origin_dir}/axi_timer.srcs/constrs_1/new/system_wrapper.xdc]"]
+add_files -norecurse -fileset $obj $files
 set file "new/system_wrapper.xdc"
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize ${origin_dir}/axi_timer/axi_timer.srcs/constrs_1/new/migrated_io_properties.xdc]"
-set file_imported [import_files -fileset constrs_1 [list $file]]
+set files [list "[file normalize ${origin_dir}/axi_timer.srcs/constrs_1/new/migrated_io_properties.xdc]"]
+add_files -norecurse -fileset $obj $files
 set file "new/migrated_io_properties.xdc"
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
 
+file mkdir "${proj_dir}/axi_timer.srcs/constrs_1/new/"
+close [ open "${proj_dir}/axi_timer.srcs/constrs_1/new/proj_constraints.xdc" w ]
+add_files -fileset constrs_1 "${proj_dir}/axi_timer.srcs/constrs_1/new/proj_constraints.xdc"
+
+
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
-set_property -name "target_constrs_file" -value "$proj_dir/${_xil_proj_name_}.srcs/constrs_1/new/system_wrapper.xdc" -objects $obj
+set_property -name "target_constrs_file" -value "${proj_dir}/${_xil_proj_name_}.srcs/constrs_1/new/proj_constraints.xdc" -objects $obj
 set_property -name "target_part" -value "xc7z010clg400-1" -objects $obj
-set_property -name "target_ucf" -value "$proj_dir/${_xil_proj_name_}.srcs/constrs_1/new/system_wrapper.xdc" -objects $obj
+set_property -name "target_ucf" -value "${proj_dir}/${_xil_proj_name_}.srcs/constrs_1/new/proj_constraints.xdc" -objects $obj
 
 # Create 'sim_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sim_1] ""]} {
