@@ -150,7 +150,7 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 
 # Set IP repository paths
 set obj [get_filesets sources_1]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/zybo_generic/zybo_generic.srcs.foo"] [file normalize "$origin_dir/../projects/IPs"] [file normalize "$origin_dir/../projects_2015_2/ips"]" $obj
+set_property "ip_repo_paths" "[file normalize "$origin_dir/zybo_generic/zybo_generic.srcs"]" $obj
 
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
@@ -158,7 +158,7 @@ update_ip_catalog -rebuild
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
- [file normalize "${origin_dir}/zybo_generic/zybo_generic.srcs.foo/component.xml"] \
+ [file normalize "${origin_dir}/zybo_generic/zybo_generic.srcs/component.xml"] \
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -170,7 +170,7 @@ set files [list \
 set imported_files [import_files -fileset sources_1 $files]
 
 # Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/zybo_generic/zybo_generic.srcs.foo/component.xml"
+set file "$origin_dir/zybo_generic/zybo_generic.srcs/component.xml"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "IP-XACT" -objects $file_obj
