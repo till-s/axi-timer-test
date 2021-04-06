@@ -1,0 +1,121 @@
+/*
+ *  Copyright (C) 2011 - 2014 Xilinx
+ *  Copyright (C) 2012 National Instruments Corp.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/ {
+	amba {
+
+		/* catch-all device */
+		ps7-axislv@40000000 {
+			compatible = "generic-uio";
+			reg = <0x40000000 0x40000000>;
+			interrupt-parent = <&intc>;
+
+			/* route just one IRQ -- the generic-uio driver cannot handle more... */
+			interrupts = <0 91 4>;
+            status = "disabled";
+		};
+
+		/* definitions for individual devices covering sub-ranges */
+		ps7-axislv0@43c00000 {
+			compatible = "generic-uio";
+			reg = <0x43c00000 0x1000>;
+			interrupt-parent = <&intc>;
+
+			/* must subtract 32 from zynq irq ID# PL interrupts are
+			 * in two slices: 61...68 and 84..91
+			 */
+			interrupts = <0 29 4>;
+		};
+
+		ps7-axislv1@43c01000 {
+			compatible = "generic-uio";
+			reg = <0x43c01000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 30 4>;
+		};
+
+		ps7-axislv2@43c02000 {
+			compatible = "generic-uio";
+			reg = <0x43c02000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 31 4>;
+		};
+
+		ps7-axislv3@43c03000 {
+			compatible = "generic-uio";
+			reg = <0x43c03000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 32 4>;
+		};
+
+		ps7-axislv4@43c04000 {
+			compatible = "generic-uio";
+			reg = <0x43c04000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 33 4>;
+		};
+
+		ps7-axislv5@43c05000 {
+			compatible = "generic-uio";
+			reg = <0x43c05000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 34 4>;
+		};
+
+		ps7-axislv6@43c06000 {
+			compatible = "generic-uio";
+			reg = <0x43c06000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 35 4>;
+		};
+
+		ps7-axislv7@43c07000 {
+			compatible = "generic-uio";
+			reg = <0x43c07000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 36 4>;
+		};
+
+		ps7-axislv8@43c08000 {
+			compatible = "generic-uio";
+			reg = <0x43c08000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 52 4 >;
+		};
+
+		ps7-axislv9@43c09000 {
+			compatible = "generic-uio";
+			reg = <0x43c09000 0x1000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 53 4 >;
+		};
+
+		ps7-axislv10@43c20000 {
+			compatible = "generic-uio";
+			reg = <0x43c20000 0x20000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 54 4 >;
+		};
+	};
+
+	prog_fpga0: prog-fpga0 {
+		compatible = "tills,fpga-programmer-1.0";
+		fpga-mgr   = <&devcfg>;
+		file       = "zynq-firmware.bin";
+	};
+};
+
+&clkc {
+	fclk-enable = <0xf>;
+};

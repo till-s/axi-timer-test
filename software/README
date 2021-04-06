@@ -1,0 +1,5 @@
+device-tree files are FYI; show first UIO device:
+
+  ps7-axislv0@43c00000; should be mapped by linux to /dev/uio0
+
+which defines base-address and interrupt for this device.
